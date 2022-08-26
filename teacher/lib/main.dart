@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
           );
         },
         child: Container(
-          width: double.infinity,
           padding: const EdgeInsets.all(16),
           margin: const EdgeInsets.fromLTRB(32, 8, 32, 8),
           decoration: BoxDecoration(
@@ -122,8 +121,11 @@ class MyApp extends StatelessWidget {
                 // 박스 디자인 x3
                 // 페이지 이동을 하기위해 Builder 위젯으로 감싸준다.
                 Builder(builder: (context) {
+                  // 상호작용을 가능하게 해주는 위젯
                   return GestureDetector(
                     onTap: () {
+                      // 플러터는 Stack 자료구조를 이용하여 네비게이션을 구현한다
+                      // 따라서 push를 이용하여 페이지를 이동하고, pop으로 이전 페이지로 돌아온다.
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -132,16 +134,20 @@ class MyApp extends StatelessWidget {
                       );
                     },
                     child: Container(
-                      width: double.infinity,
                       padding: const EdgeInsets.all(16),
                       margin: const EdgeInsets.fromLTRB(32, 8, 32, 8),
+                      // decoration 이 있을땐 Container에서 color를 사용하면 에러가 발생한다.
+                      // BoxDecoration 위젯 안에 color를 사용하면된다.
                       decoration: BoxDecoration(
                         color: Colors.white,
+                        // 모서리를 둥글게 만들어준다. circular() 인자 값으로 조절한다.
                         borderRadius: BorderRadius.circular(5),
+                        // 테두리 두께, 색상 지정
                         border: Border.all(
                           width: 1.0,
                           color: Colors.grey.shade400,
                         ),
+                        // 박스의 그림자부분
                         boxShadow: const [
                           BoxShadow(
                             color: Colors.grey,
