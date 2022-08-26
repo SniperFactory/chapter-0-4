@@ -14,32 +14,48 @@ class NotFound extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(96),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SafeArea(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Row(
-                  children: const [
-                    Icon(
-                      Icons.arrow_left_rounded,
-                      size: 48,
-                      color: Colors.white,
-                    ),
-                    Text(
-                      '뒤로가기',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
+        appBar: AppBar(
+          titleSpacing: -10,
+          centerTitle: false,
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_left_rounded,
+              size: 40,
             ),
           ),
+          title: const Text('뒤로가기'),
+          backgroundColor: Colors.transparent,
         ),
+        // appBar: PreferredSize(
+        //   preferredSize: const Size.fromHeight(96),
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: SafeArea(
+        //       child: GestureDetector(
+        //         onTap: () {
+        //           Navigator.pop(context);
+        //         },
+        //         child: Row(
+        //           children: const [
+        //             Icon(
+        //               Icons.arrow_left_rounded,
+        //               size: 48,
+        //               color: Colors.white,
+        //             ),
+        //             Text(
+        //               '뒤로가기',
+        //               style: TextStyle(color: Colors.white, fontSize: 20),
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -52,7 +68,7 @@ class NotFound extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
+            const Text(
               '준비 중인 페이지입니다',
               style: TextStyle(color: Colors.white, fontSize: 24),
               textAlign: TextAlign.center,

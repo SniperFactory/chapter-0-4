@@ -20,34 +20,55 @@ class _ViewSecretState extends State<ViewSecret> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        //PreferredSize 위젯으로 높이를 지정하고 appBar를 커스텀디자인
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(96),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SafeArea(
-              child: GestureDetector(
-                onTap: () {
-                  // 뒤로가기 기능
-                  Navigator.pop(context);
-                },
-                child: Row(
-                  children: const [
-                    Icon(
-                      Icons.arrow_left_rounded,
-                      size: 48,
-                      color: Colors.white,
-                    ),
-                    Text(
-                      '뒤로가기',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  ],
-                ),
-              ),
+        // AppBar를 사용하는 방법
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          // 아이콘과 텍스트의 간격 조절
+          titleSpacing: -10,
+          centerTitle: false,
+          // 위의 컬러를 투명으로 지정했어도 그림자는 남아있기 때문에 elevation 을 0으로 설정하거나 shadowColor를 투명으로 설정하여 AppBar 위젯의 그림자를 없애준다.
+          elevation: 0,
+          shadowColor: Colors.transparent,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_left_rounded,
+              size: 40,
             ),
           ),
+          title: const Text('뒤로가기'),
         ),
+        // PreferredSize 위젯으로 appBar를 커스텀디자인 할 수 있다.
+        // appBar: PreferredSize(
+        //   preferredSize: const Size.fromHeight(96),
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: SafeArea(
+        //       child: GestureDetector(
+        //         onTap: () {
+        //           // 뒤로가기 기능
+        //           Navigator.pop(context);
+        //         },
+        //         child: Row(
+        //           children: const [
+        //             Icon(
+        //               Icons.arrow_left_rounded,
+        //               size: 48,
+        //               color: Colors.white,
+        //             ),
+        //             Text(
+        //               '뒤로가기',
+        //               style: TextStyle(color: Colors.white, fontSize: 20),
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -66,12 +87,15 @@ class _ViewSecretState extends State<ViewSecret> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(
-              height: 24,
+              height: 32,
             ),
             Text(
               '작성자 노란필통',
-              style: TextStyle(color: Colors.white, fontSize: 18),
               textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  decoration: TextDecoration.underline),
             ),
             const SizedBox(
               height: 96,
