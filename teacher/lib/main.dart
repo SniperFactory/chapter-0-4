@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:teacher/not_found.dart';
 import 'package:teacher/view_secret.dart';
+import 'package:pocketbase/pocketbase.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  final client = PocketBase('http://http://3.35.21.162:8090');
+
   _renderMenuBox(String menuTitle, String desc, context) {
     return Builder(builder: (context) {
       return GestureDetector(
