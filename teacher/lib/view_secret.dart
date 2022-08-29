@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'package:http/http.dart' as http;
 
 class ViewSecret extends StatefulWidget {
   const ViewSecret({Key? key}) : super(key: key);
@@ -11,14 +12,16 @@ class ViewSecret extends StatefulWidget {
 }
 
 class _ViewSecretState extends State<ViewSecret> {
-  final client = PocketBase('http://3.35.21.162:8090/');
+  final endpoint = 'http://3.35.21.162:8090/api/collections/secrets/records';
   Future<Map<String, dynamic>> _getSecrets() async {
-    final result = await client.records.getList('secrets');
+    final response = await http.get(Uri.parse(endpoint));
+    final res = json.decode(response.body);
     // 임의의 게시물 하나를 가져와야 하므로 Random 사용
     // 0부터 nextInt 안의 값 미만의 수 하나를 추출
-    int idx = Random().nextInt(result.totalItems);
-    Map<String, dynamic> res = result.items[idx].toJson();
-    return res;
+    int idx = Random().nextInt(res['totalItems']);
+    // 타입 확인은 .runtimeType을 사용한다.
+    // print(res['items'][idx].runtimeType);
+    return res['items'][idx];
   }
 
   @override
@@ -53,34 +56,6 @@ class _ViewSecretState extends State<ViewSecret> {
           ),
           title: const Text('뒤로가기'),
         ),
-        // PreferredSize 위젯으로 appBar를 커스텀디자인 할 수 있다.
-        // appBar: PreferredSize(
-        //   preferredSize: const Size.fromHeight(96),
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(8.0),
-        //     child: SafeArea(
-        //       child: GestureDetector(
-        //         onTap: () {
-        //           // 뒤로가기 기능
-        //           Navigator.pop(context);
-        //         },
-        //         child: Row(
-        //           children: const [
-        //             Icon(
-        //               Icons.arrow_left_rounded,
-        //               size: 48,
-        //               color: Colors.white,
-        //             ),
-        //             Text(
-        //               '뒤로가기',
-        //               style: TextStyle(color: Colors.white, fontSize: 20),
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
 
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -94,6 +69,9 @@ class _ViewSecretState extends State<ViewSecret> {
                 ),
               ),
             ),
+            // Future를 사용하기위한 FutureBuilder 위젯
+            // <>안의 타입은 snapshot.data 값의 타입을 작성해야한다. snapshot.data 값은 Future의 return 값과 같다.
+            // 여기선 위의 _getSecret 함수의 return 값인 res['items'][idx] 의 타입인 Map<String, dynamic> 을 써줬다.
             FutureBuilder<Map<String, dynamic>>(
                 future: _getSecrets(),
                 builder: (context, snapshot) {
