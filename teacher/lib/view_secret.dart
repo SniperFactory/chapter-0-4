@@ -1,4 +1,7 @@
+import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:pocketbase/pocketbase.dart';
 
 class ViewSecret extends StatefulWidget {
   const ViewSecret({Key? key}) : super(key: key);
@@ -8,6 +11,16 @@ class ViewSecret extends StatefulWidget {
 }
 
 class _ViewSecretState extends State<ViewSecret> {
+  final client = PocketBase('http://3.35.21.162:8090/');
+  Future<Map<String, dynamic>> _getSecrets() async {
+    final result = await client.records.getList('secrets');
+    // 임의의 게시물 하나를 가져와야 하므로 Random 사용
+    // 0부터 nextInt 안의 값 미만의 수 하나를 추출
+    int idx = Random().nextInt(result.totalItems);
+    Map<String, dynamic> res = result.items[idx].toJson();
+    return res;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,22 +94,37 @@ class _ViewSecretState extends State<ViewSecret> {
                 ),
               ),
             ),
-            Text(
-              '도서관에 매일 오는 빨간모자 남성분 \n제가 많이 좋아하는거 안비밀',
-              style: TextStyle(color: Colors.white, fontSize: 18),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            Text(
-              '작성자 노란필통',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  decoration: TextDecoration.underline),
-            ),
+            FutureBuilder<Map<String, dynamic>>(
+                future: _getSecrets(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return Column(
+                      children: [
+                        Text(
+                          snapshot.data!['secret'],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        Text(
+                          snapshot.data!['author'],
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                }),
             const SizedBox(
               height: 96,
             ),

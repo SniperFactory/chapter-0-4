@@ -7,7 +7,6 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  final client = PocketBase('http://http://3.35.21.162:8090');
 
   _renderMenuBox(String menuTitle, String desc, context) {
     return Builder(builder: (context) {
